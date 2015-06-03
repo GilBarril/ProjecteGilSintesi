@@ -4,8 +4,7 @@ angular.module('appLearn')
         
         
          $scope.compartirLocalitzacio = function(e,u) {
-             
-             
+
              console.log("Entres a Compartir");
              console.log(e);
              console.log(u);
@@ -22,7 +21,10 @@ angular.module('appLearn')
             console.log("Guardada Be");
             console.log(localitzacio);
             
-            UserSvc.put($scope.currentUser, localitzacio);
+            $scope.currentUser.localitzacions.push(localitzacio);
+            
+            UserSvc.modificaarray($scope.currentUser,$scope.currentUser.localitzacions);
+            
 
             $location.path("/userlocalitzacions");
         });

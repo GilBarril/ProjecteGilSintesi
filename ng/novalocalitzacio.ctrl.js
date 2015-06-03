@@ -29,7 +29,11 @@ angular.module('appLearn').controller('Novalocalitzaciocontroller', function($sc
         }, function(localitzacio) {
             console.log(localitzacio);
             
-            UserSvc.put($scope.currentUser, localitzacio);
+            
+            $scope.currentUser.localitzacions.push(localitzacio);
+            
+            UserSvc.modificaarray($scope.currentUser,$scope.currentUser.localitzacions);
+            
 
             $location.path("/novalocalitzacio");
         });

@@ -139,12 +139,7 @@ angular.module('appLearn')
             })
         };
 
-        this.put = function(user, localitzacio) {
-            return $http.put("/api/users", {
-                "user": user,
-                "localitzacio": localitzacio
-            });
-        };
+       
 
 
     });

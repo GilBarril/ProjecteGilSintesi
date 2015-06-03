@@ -29,13 +29,13 @@ function compressAndResize(imageUrl) {
 
 
 router.get('/lletra', function(req, res, next) {
-    console.log(req.query.id)
+    
     User.find({
         "username": new RegExp(req.query.id)
     }, function(err, user) {
-        console.log(user);
+        
         if (err) return next(err);
-        console.log(user);
+        
         res.status(200).json(user);
     });
 });
@@ -46,7 +46,7 @@ router.get('/', function(req, res, next) {
         "missatge": "Error autenticació"
     });
     var auth = jwt.decode(req.headers['x-auth'], config.secret);
-    console.log(auth);
+   
     User.findOne({
         username: auth.username
     }, function(err, user) {
@@ -75,9 +75,8 @@ router.get('/:id', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     /* Primer cerquem l'usuari a la mongo */
-    if (req.auth) {
-        console.log(req.body);
-
+    
+        
         User.findOne({
             username: req.body.username
         }, function(err, user) {
@@ -109,14 +108,7 @@ router.post('/', function(req, res, next) {
                 });
             }
         });
-    }
-    else {
 
-        res.status(403).json({
-            "missatge": "Nessecites autentificació"
-        });
-
-    }
 });
 
 
@@ -146,37 +138,9 @@ router.post('/pujarImatge', function(req, res, next) {
 
 
 
-
-
 router.put("/", function(req, res, next) {
+    
 
-    if (req.auth) {
-        User.find({
-            "_id": req.body.user._id
-        }, function(err, user) {
-
-
-            user[0].localitzacions.push(req.body.localitzacio);
-            if (err) return next(err);
-            User.findByIdAndUpdate(user[0]._id, user[0], function(err, p) {
-                if (err) return next(err);
-
-                res.status(201).json({
-                    "missatge": "usuari modificat"
-                });
-
-
-            });
-        });
-    }
-    else {
-
-        res.status(403).json({
-            "missatge": "Nessecites autentificació"
-        });
-
-
-    }
 
 });
 

@@ -92,7 +92,7 @@ angular.module('appLearn').directive('map', function() {
             /*AQUI ET DIU SI HA TROBAT BÉ LA TEVA GEOLOCALITZACIO*/
 
             function success(pos) {
-                console.log("POSICIO")
+                
                 posicioinicialRoute = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
                 geolocalitzacioDenegada=false;
             };

@@ -32,7 +32,7 @@ angular.module('appLearn').directive('compartir', function() {
 
                         adrecainicial = results[0].formatted_address;
 
-                        console.log("la meva " + adrecainicial);
+                        
                         document.getElementById('inici').setAttribute('value', adrecainicial);
                         document.getElementById('inici').setAttribute('placeholder', adrecainicial);
                         tipusdetransport =  document.getElementById('mode').value;
@@ -93,7 +93,7 @@ angular.module('appLearn').directive('compartir', function() {
 
             function calcRoute(a, e,t) {
 
-                console.log(a);
+                
 
                 var request = {
                     origin: e,

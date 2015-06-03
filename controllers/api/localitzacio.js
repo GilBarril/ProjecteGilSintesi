@@ -5,7 +5,7 @@ module.exports = function() {
     //  var socket = require("../../controllers/api/localitzador")(http);
 
     router.get("/:id", function(req, res, next) {
-        console.log(req.params);
+        
 
         User.find({
             "username": req.params.id
@@ -34,20 +34,15 @@ module.exports = function() {
 
     router.post("/", function(req, res, next) {
         if (req.auth) {
-            console.log("ENTRA A POST");
+            
             var localitzacio = new Localitzacio(req.body);
             localitzacio.save(function(err, localitzacio) {
                 if (err) {
-                    console.log('error en Localitzacio');
+                    
                     return next(err)
                 }
 
-                /* Localitzacio.findById(localitzacio._id).populate('User').exec(function(err, loc) {
-                     socket.nou(loc);
-                 })*/
-
-                console.log("GUARDAT AMB EXIT")
-
+                
                 res.status(201).json(localitzacio);
             });
 
@@ -78,8 +73,9 @@ module.exports = function() {
                 if (err) {
                     return next(err);
                 }
-                res.status(200);
-                console.log("Borra localitzacio");
+                res.status(200).json({
+                    "missatge": "Borra localitzacio"
+                });
 
             });
 

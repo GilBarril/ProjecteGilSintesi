@@ -1,5 +1,5 @@
 angular.module('appLearn')
-    .controller('LocalitzacionsController', function($scope, LocalitzacioServei, $location, UserSvc, $rootScope,CompartidaServei) {
+    .controller('LocalitzacionsController', function($scope, LocalitzacioServei, $location, UserSvc, $rootScope) {
 
 
         $scope.localitzacions = [];
@@ -40,21 +40,6 @@ angular.module('appLearn')
         }
         
 
-        $scope.compartirlocalitzacio = function(localitzacio) {
-
-            
-            CompartidaServei.srv.save({
-                usuari: $scope.Usuariacompartir,
-                localitzacio: localitzacio,
-                usuariprimer: "Gil"
-            }, function(localitzacio) {
-                
-                $location.path("/userlocalitzacions");
-            });
-
-  
-
-        }
         
         $scope.PerArribar= function(e) {
             geolocalitzam(e);

@@ -17,7 +17,7 @@ angular.module('appLearn').directive('select2', function() {
                         };
                     },
                     processResults: function(data, page) {
-                        console.log(data);
+                       
                         return {
                             results: data
                         };
@@ -33,7 +33,7 @@ angular.module('appLearn').directive('select2', function() {
             });
 
             function formatRepo(repo) {
-                console.log(scope);
+               
                 if (repo.loading) return repo.text;
                 
                 var markup = '<div class="clearfix">' +
