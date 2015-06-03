@@ -5,22 +5,22 @@ var User = require("../../models/users");
 var config = require("../../config");
 var path = require('path');
 
-var compressor = path.resolve(__dirname, '../../compressor.js');  // Fitxer que manipules les imatges
-function compressAndResize (imageUrl) {
-  // Creem un "child process" d'aquesta manera no 
-  // fem un bloqueig del EventLoop amb un ús intens de la CPU
-  // al processar les imatges
-  var childProcess = require('child_process').fork(compressor);
-  childProcess.on('message', function(message) {
-    console.log(message);
-  });
-  childProcess.on('error', function(error) {   // Si el procés rep un missatge l'escriurà a la consola
-    console.error(error.stack);
-  });
-  childProcess.on('exit', function() {  //Quan el procés rep l'event exit mostra un missatge a la consola
-    console.log('process exited');
-  });
-  childProcess.send(imageUrl);
+var compressor = path.resolve(__dirname, '../../compressor.js'); // Fitxer que manipules les imatges
+function compressAndResize(imageUrl) {
+    // Creem un "child process" d'aquesta manera no 
+    // fem un bloqueig del EventLoop amb un ús intens de la CPU
+    // al processar les imatges
+    var childProcess = require('child_process').fork(compressor);
+    childProcess.on('message', function(message) {
+        console.log(message);
+    });
+    childProcess.on('error', function(error) { // Si el procés rep un missatge l'escriurà a la consola
+        console.error(error.stack);
+    });
+    childProcess.on('exit', function() { //Quan el procés rep l'event exit mostra un missatge a la consola
+        console.log('process exited');
+    });
+    childProcess.send(imageUrl);
 }
 
 
@@ -75,60 +75,73 @@ router.get('/:id', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     /* Primer cerquem l'usuari a la mongo */
-    
-    console.log(req.body);
-    
-    User.findOne({
-        username: req.body.username
-    }, function(err, user) {
-        if (err) return next(err);
-        if (user) {
-            res.status(409).json({
-                "missatge": "l'usuari ja existeix"
-            });
-        }
-        else {
-            var nouUser = new User({
-                username: req.body.username
-            });
-            bcrypt.hash(req.body.password, 11, function(err, hash) {
-                if (err) return next(err);
-                nouUser.password = hash;
-                nouUser.frase ="M'agrada SearchYourPlace";
-                nouUser.aficions="Buscar llocs per tot el món";
-                nouUser.lloc="Sobre les montanyes";
-                nouUser.menjar="El que em posin al plat";
-                
-                nouUser.save(function(err) {
-                    if (err) return next(err);
+    if (req.auth) {
+        console.log(req.body);
 
-                    res.status(201).json({
-                        "missatge": "Usuari autenticat"
+        User.findOne({
+            username: req.body.username
+        }, function(err, user) {
+            if (err) return next(err);
+            if (user) {
+                res.status(409).json({
+                    "missatge": "l'usuari ja existeix"
+                });
+            }
+            else {
+                var nouUser = new User({
+                    username: req.body.username
+                });
+                bcrypt.hash(req.body.password, 11, function(err, hash) {
+                    if (err) return next(err);
+                    nouUser.password = hash;
+                    nouUser.frase = "M'agrada SearchYourPlace";
+                    nouUser.aficions = "Buscar llocs per tot el món";
+                    nouUser.lloc = "Sobre les montanyes";
+                    nouUser.menjar = "El que em posin al plat";
+
+                    nouUser.save(function(err) {
+                        if (err) return next(err);
+
+                        res.status(201).json({
+                            "missatge": "Usuari autenticat"
+                        });
                     });
                 });
-            });
-        }
-    });
+            }
+        });
+    }
+    else {
 
+        res.status(403).json({
+            "missatge": "Nessecites autentificació"
+        });
+
+    }
 });
 
 
 router.post('/pujarImatge', function(req, res, next) {
-   
-    User.findByIdAndUpdate(req.body.originalname, {
-            imatgeUser:"images/120/"+req.files.image.name
+    if (req.auth) {
+        User.findByIdAndUpdate(req.body.originalname, {
+            imatgeUser: "images/120/" + req.files.image.name
         }, function(err, p) {
             if (err) return next(err);
 
             res.status(201).json({
                 "missatge": "usuari modificat"
-                
+
             });
-    compressAndResize(__dirname+"/../../assets/uploads/" + req.files.image.name);
+            compressAndResize(__dirname + "/../../assets/uploads/" + req.files.image.name);
 
         });
-   
-   
+    }
+    else {
+
+        res.status(403).json({
+            "missatge": "Nessecites autentificació"
+        });
+    }
+
 });
 
 
@@ -137,7 +150,7 @@ router.post('/pujarImatge', function(req, res, next) {
 
 router.put("/", function(req, res, next) {
 
-
+    if (req.auth) {
         User.find({
             "_id": req.body.user._id
         }, function(err, user) {
@@ -155,12 +168,20 @@ router.put("/", function(req, res, next) {
 
             });
         });
+    }
+    else {
 
-    
+        res.status(403).json({
+            "missatge": "Nessecites autentificació"
+        });
+
+
+    }
+
 });
 
 router.put("/editaconfiguracio", function(req, res, next) {
-    
+    if (req.auth) {
         User.findByIdAndUpdate(req.body.cos.usuari._id, {
             frase: req.body.cos.usuari.frase,
             lloc: req.body.cos.usuari.lloc,
@@ -175,7 +196,13 @@ router.put("/editaconfiguracio", function(req, res, next) {
 
 
         });
+    }
+    else {
+        res.status(403).json({
+            "missatge": "Nessecites autentificació"
+        });
 
+    }
 
 
 });
@@ -183,10 +210,10 @@ router.put("/editaconfiguracio", function(req, res, next) {
 
 
 router.put("/arraylocalitzacions", function(req, res, next) {
+    if (req.auth) {
+        User.findByIdAndUpdate(req.body.us._id, {
+            localitzacions: req.body.array
 
-       User.findByIdAndUpdate(req.body.us._id, {
-            localitzacions:req.body.array
-            
         }, function(err, p) {
             if (err) return next(err);
 
@@ -197,6 +224,13 @@ router.put("/arraylocalitzacions", function(req, res, next) {
 
         });
 
+    }
+    else {
+        res.status(403).json({
+            "missatge": "Nessecites autentificació"
+        });
+
+    }
 
 
 });

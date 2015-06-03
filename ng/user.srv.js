@@ -5,10 +5,18 @@ angular.module('appLearn')
         srv.Usuari = " ";
         srv.UsuariActual;
         srv.UsuariView;
+        var xauth;
+        
+        srv.getAuth = function(){
+            
+            return xauth;
+        }
+        
+        
         srv.cookie = function(token) {
 
             console.log("ara hauria d'enviar el broadcast")
-
+            xauth=token;
             $http.defaults.headers.common['x-auth'] = token;
             return $http.get('/api/users').success(function(e) {
                 srv.auth = true;
@@ -76,6 +84,7 @@ angular.module('appLearn')
                 */
 
                 srv.Usuari = username;
+                xauth=data;
                 $http.defaults.headers.common['x-auth'] = data;
                 if (data) srv.auth = true;
             }).error(function(error, status) {

@@ -2,7 +2,7 @@ module.exports = function() {
     var Localitzacio = require("../../models/Localitzacio");
     var User = require("../../models/users");
     var router = require("express").Router();
-  //  var socket = require("../../controllers/api/localitzador")(http);
+    //  var socket = require("../../controllers/api/localitzador")(http);
 
     router.get("/:id", function(req, res, next) {
         console.log(req.params);
@@ -13,14 +13,14 @@ module.exports = function() {
             if (err) {
                 return next(err);
             }
-           
+
             res.json(user);
         })
 
     });
 
     router.get("/", function(req, res, next) {
-        
+
         Localitzacio.find().sort('-date').populate('User').exec(function(err, localitzacio) {
             if (err) {
                 return next(err);
@@ -33,48 +33,67 @@ module.exports = function() {
 
 
     router.post("/", function(req, res, next) {
-        console.log("ENTRA A POST");
-        var localitzacio = new Localitzacio(req.body);
-        localitzacio.save(function(err, localitzacio) {
-            if (err) {
-                console.log('error en Localitzacio');
-                return next(err)
-            }
-            
-           /* Localitzacio.findById(localitzacio._id).populate('User').exec(function(err, loc) {
-                socket.nou(loc);
-            })*/
+        if (req.auth) {
+            console.log("ENTRA A POST");
+            var localitzacio = new Localitzacio(req.body);
+            localitzacio.save(function(err, localitzacio) {
+                if (err) {
+                    console.log('error en Localitzacio');
+                    return next(err)
+                }
 
-            console.log("GUARDAT AMB EXIT")
+                /* Localitzacio.findById(localitzacio._id).populate('User').exec(function(err, loc) {
+                     socket.nou(loc);
+                 })*/
 
-            res.status(201).json(localitzacio);
-        });
+                console.log("GUARDAT AMB EXIT")
+
+                res.status(201).json(localitzacio);
+            });
+
+        }
+        else {
+            res.status(403).json({
+                "missatge": "Nessecites autentificació"
+            });
+
+        }
+
+
+
     });
 
 
     router.put("/:id", function(req, res, next) {
 
-        console.log(req.params.id);
+
     });
 
 
     router.delete("/:id", function(req, res, next) {
+        if (req.auth) {
+            Localitzacio.remove({
+                "_id": req.params.id
+            }, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200);
+                console.log("Borra localitzacio");
 
-         Localitzacio.remove({
-            "_id": req.params.id
-        }, function(err) {
-            if (err) {
-                return next(err);
-            }
-            res.status(200);
-            console.log("Borra localitzacio");
-
-        });
+            });
 
 
-        res.status(201).json({
-            "missatge": "usuari modificat"
-        });
+            res.status(201).json({
+                "missatge": "Borra localitzacio"
+            });
+        }
+        else {
+            res.status(403).json({
+                "missatge": "Nessecites autentificació"
+            });
+
+        }
 
 
     });

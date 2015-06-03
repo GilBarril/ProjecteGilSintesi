@@ -8,6 +8,9 @@ angular.module('appLearn')
         });
        
         uploader.onBeforeUploadItem = function(item) {
+            item.headers={
+                'x-auth':UserSvc.getAuth()
+            }
             item.formData.push({
                 originalname: $scope.currentUser._id
             });
