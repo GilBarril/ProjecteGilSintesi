@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-4 col-md-offset-4">
+            <form ng-submit="login(username,password)">
+                <div class="form-group">
+                    <label for="usuari">Usuari</label>
+                    <input type="text" class="form-control" ng-model="username" id="usuari">
+                </div>
+                <div class="form-group">
+                    <label for="contrasenya">Contrasenya</label>
+                    <input type="password" class="form-control" ng-model="password">
+                </div>
+                <div ng-if="error" class="alert alert-danger">
+                    <strong>{{error}}</strong>
+                </div>
+                <input type="submit" class="btn btn-info btn-lg btn-block" value="Login">
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        if ($('.pac-container')) {
+            $('.pac-container').remove();
+
+
+        }
+    });
+</script>

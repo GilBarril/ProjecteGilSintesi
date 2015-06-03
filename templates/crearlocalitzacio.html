@@ -1,0 +1,109 @@
+
+<div class="container" ng-controller="Novalocalitzaciocontroller">
+    <div class="row">
+    <div class="col-xs-12" style="margin-top:30px;">
+        <map></map>
+    </div>
+
+</div>
+
+    <div class="row">
+
+
+        <div id="divFormularioCreacioLocalitzacio"class="col-xs-12">
+
+            <form>
+
+
+                <div id="formulariLocalitzacio">
+                    <h3 style="color:#A8A8A8">Emplena el formulari per a crear una cerca</h3>
+                    <div class="form-group col-md-6 col-xs-12">
+                        <input id="address" ng-model="poblacio" placeholder="Poblacio o Adreça" />
+                    </div>
+
+                    <div class="form-group col-md-6 col-xs-12">
+                        <select class="form-control" id="radi">
+                            <option class="titolform" value="" disabled selected>Radi de localitzacio</option>
+                            <option value="500">500m</option>
+                            <option value="1000">1000m</option>
+                            <option value="2000">2000m</option>
+                            <option value="4000">4000m</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 col-xs-12">
+                        <select class="form-control" id="tipus">
+                            <option class="titolform" value="" disabled selected>Tipus de localitzacio (Restaurant,Hospital,..)</option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="form-group col-md-6 col-xs-12">
+                        <select class="form-control" id="mode">
+                            <option value="DRIVING">Cotxe</option>
+                            <option value="WALKING">Caminant</option>
+                            <option value="TRANSIT">Trasport Públic</option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="form-group col-md-offset-5 col-md-2 col-xs-12">
+                        <button class="btn btn-default " onclick="codeAddress()">Visualitza Cerca <span class="glyphicon glyphicon-map-marker"></span>
+                        </button>
+
+                    </div>
+                    
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="row">
+
+
+        <div id="listing" class="col-xs-5">
+
+            <table id="resultsTable">
+                <tbody id="results"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row list-group-item" id="direction-panel">
+        <div class="col-xs-12 col-md-6" id="panel-1"></div>
+        <div class="col-xs-12 col-md-6" id="panel-2"></div>
+        <hr>
+    </div>
+
+
+    <div class="row" id="foto">
+
+    </div>
+    <script type="text/javascript">
+    
+        $(document).ready(function() {
+            $("#tipus").select2();
+        
+            $(document).on('change', '#address', function() {
+                  $('.pac-content').remove();
+            });
+            
+            
+            
+        });
+        
+        
+        
+        
+    </script>
+
+
+</div>
+
+

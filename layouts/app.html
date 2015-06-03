@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ca">
+    
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <style>
+      #map-canvas {
+        
+        height:350px;
+          background-color:red;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="app.css" type="text/css" />
+</head>
+
+<body ng-app='appLearn' ng-controller="ApplicationController">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">SearchYourPlace</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li ng-if="currentUser"><a href="/#/novalocalitzacio">Crear Localitzacio</a>
+                    </li>
+                    <li ng-if="!currentUser"><a href="/#/registre">Registre</a>
+                    </li>
+                    <li ng-if="currentUser"><a href="/#/userlocalitzacions">Perfil</a>
+                    </li>
+                    <li ng-if="currentUser"><a href="/#/editaUser">Configuracio</a>
+                    </li>
+                   
+                    <li ng-if="!currentUser"><a href="/#/login">Login</a>
+                    </li>
+                     <div id="DivSelect">
+                   <select2></select2>
+                    </div>
+                </ul>
+                <ul ng-if="currentUser" class="nav navbar-nav navbar-right">
+                    <li><a>Usuari: {{currentUser.username}}</a>
+                    </li>
+                    <li class="botodesconectar"><a ng-click="logout()" class="btn btn-info btn-xs">Desconnectar</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div ng-view></div>
+    
+    <footer style="height:50px;background-color:#E8A848"></footer>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-resource.js"></script>
+    
+     <script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-route.js"></script>
+
+    <script src="angular-file-upload.min.js"></script>
+    <script src="cookies.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

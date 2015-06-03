@@ -1,0 +1,54 @@
+<div class="container">
+
+<div class="col-xs-12">
+
+    <div class="nomusuari">
+    
+   <img class="thumbnail" src={{user.imatgeUser}} height="65" width="65">
+   <h3>{{user.username}}</h3>
+   </div>
+   <div class="col-xs-12 col-md-6">
+   
+    <p ng-if="user.frase"><span class="nomDada">Frase que em defienix:</span> {{user.frase}}</p>
+    <p ng-if="user.aficions"><span class="nomDada">Aficions:</span> {{user.aficions}}</p>
+    </div>
+     <div class="col-xs-12 col-md-6">
+    <p ng-if="user.lloc"><span class="nomDada">El meu lloc preferit:</span> {{user.lloc}}</p>
+    <p ng-if="user.menjar"><span class="nomDada">El meu menjar preferit:</span> {{user.menjar}}</p>
+    </div>
+</div>
+<div class="col-xs-12 col-md-6">
+            <ul class="list-group">
+               
+                <li class="list-group-item" ng-repeat="localitzacio in user.localitzacions">
+                    
+                   
+                    <p class="titollloc"><img class="imageIcon" src="{{localitzacio.logo}}" /> {{localitzacio.nom}}</p>
+                    <p><span class="nomDada">Adreça: </span> <span class="adrecaperdireccions">{{localitzacio.adreca}}</span></p>
+                    <p><span class="nomDada">Tel: </span> {{localitzacio.telefon}}</p>
+                    <p><span class="nomDada">Data: </span> {{localitzacio.data}}</p>
+                    <p ng-if="localitzacio.usuariOrigen"><span class="nomDada">Compartit des de: </span> {{localitzacio.usuariOrigen}}</p>
+                    
+                    <button ng-if="currentUser" class="btn btn-default" ng-click="borrarArraylocalitzacio(localitzacio)">Esborra <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                    
+                     <button ng-if="currentUser" ng-click="PerArribar(localitzacio)" class="btn btn-default direccions" >Arriba-hi <span class="glyphicon glyphicon-road"></span>
+                    </button>
+                </li>
+            </ul>
+</div>
+<div class="col-xs-12 col-md-6">
+    <compartir></compartir>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+
+        if ($('.pac-container')) {
+            $('.pac-container').remove();
+
+        }
+    });
+</script>
+</div>

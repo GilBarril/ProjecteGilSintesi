@@ -1,0 +1,60 @@
+
+body{background-image:url('Costa-brava.svg');background-position:top; background-attachment: fixed;}
+input{
+    border:0;
+    border-bottom:1px solid #ccc;
+    width:100%;
+    margin-bottom:10px;
+    box-shadow:none;
+    
+}
+.titol{
+    border-bottom:1px solid #ccc;
+}
+
+.navbar-default{
+    background-color:#2FA6E3;
+    
+       
+}
+.navbar-default .navbar-nav>li>a{color:white;}
+#dadesIniciDireccions{border-bottom:1px solid grey;}
+.nomusuari{color:grey;margin-bottom:10px;border-bottom:1px #e8e8e8 solid;}
+.nomusuari h3{margin-left:20px;}
+
+.imageIcon{width: 24px;
+        height: 24px;}
+
+#botoBorraDireccions{display:block;float:right;cursor:pointer;}
+.titollloc{padding:2px;border-bottom:1px solid grey;}
+
+.formu {
+    
+    position:absolute;
+    width:280px;
+    top:50px;
+    left:33px;
+    background-color:#337ab7;
+    z-index:5;
+    margin:0 auto;
+    padding:20px 20px;
+    border-radius:5px;
+    box-shadow: 10px 10px 5px #888888;
+    
+}   
+
+
+.divdelesimatges{height:200px;}
+#panel-direccions{opacity:0;}
+#divFormularioCreacioLocalitzacio{background-color:white;}
+.fotos{width:100%}
+.nomDada{color:#A8A8A8}
+footer{clear: both;bottom:0;position:absolute;}
+#formulariLocalitzacio{margin-bottom:10px;padding-bottom:10px;margin-top:20px;background-color:white;}
+#foto{margin-top:25px}
+#direction-panel{margin-top:30px;opacity:0;}
+#directions-panel{background-color:white;}
+#botoPerGuardar{margin-top:10px;opacity:0;}
+
+#select2{width:200px;}
+#DivSelect{margin-top:10px;width:205px;float:left;}

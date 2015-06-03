@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="col-xs-12">
+    <img class="thumbnail" src={{usuari.imatgeUser}} width="65" height="65">
+    <div class="nomusuari">
+    <h3>{{usuari.username}}</h3>
+  
+   </div>
+   <div class="col-xs-12 col-md-6">
+    <p ng-if="usuari.frase"><span class="nomDada">Frase que em defienix:</span> {{usuari.frase}}</p>
+    <p ng-if="usuari.aficions"><span class="nomDada">Aficions:</span> {{usuari.aficions}}</p>
+    </div>
+     <div class="col-xs-12 col-md-6">
+    <p ng-if="usuari.lloc"><span class="nomDada">El meu lloc preferit:</span> {{usuari.lloc}}</p>
+    <p ng-if="usuari.menjar"><span class="nomDada">El meu menjar preferit:</span> {{usuari.menjar}}</p>
+    </div>
+</div>
+    
+
+<div>
+    <div class="col-xs-12 col-md6">
+            <ul class="list-group">
+               
+                <li class="list-group-item" ng-repeat="localitzacio in usuari.localitzacions">
+                    
+                    
+                    <p class="titollloc"><img class="imageIcon" src="{{localitzacio.logo}}" /> {{localitzacio.nom}}</p>
+                    <p><span class="nomDada">Adreça: </span> <span class="adrecaperdireccions">{{localitzacio.adreca}}</span></p>
+                    <p><span class="nomDada">Tel: </span> {{localitzacio.telefon}}</p>
+                    <p><span class="nomDada">Data: </span> {{localitzacio.data}}</p>
+                    <p ng-if="localitzacio.usuariOrigen"><span class="nomDada">Compartit des de: </span> {{localitzacio.usuariOrigen}}</p>
+                     <button ng-if="currentUser" ng-click="compartirLocalitzacio(localitzacio,usuari)" class="btn btn-default direccions" >Compartir al meu Mur <span class="glyphicon glyphicon-share"></span>
+                    </button>
+                    
+                </li>
+            </ul>
+</div>
+    
+</div>
+</div>

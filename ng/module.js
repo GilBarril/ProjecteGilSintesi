@@ -1,0 +1,1 @@
+angular.module('appLearn', ['ngResource','ngRoute','ngCookies','angularFileUpload']);

@@ -1,0 +1,37 @@
+<div class="container">
+
+  <div class="nomusuari">
+    <h3>{{currentUser.username}}</h3>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 list-group-item">
+      <fieldset>
+        <div class="input-control file">
+
+          <input type="file" nv-file-select uploader="uploader" />
+        
+        </div>
+       
+          <div ng-repeat="item in uploader.queue">
+           
+            <button ng-click="item.upload()">upload</button>
+          </div>
+        </ul>
+      </fieldset>
+      <p>Frase que em defineix</p>
+      <input type="text" ng-model="frase" placeholder="{{currentUser.frase}}"> </input>
+      <p>Les meves aficions</p>
+      <input type="text" ng-model="aficions" placeholder="{{currentUser.aficions}}"> </input>
+      <p>El meu menjar preferit</p>
+      <input type="text" ng-model="menjar" placeholder="{{currentUser.menjar}}"></input>
+      <p>El meu lloc preferit</p>
+      <input type="text" ng-model="lloc" placeholder="{{currentUser.lloc}}"></input>
+      <button class="btn btn-info" ng-click="editauser(currentUser)">Guardar Configuracio <span class="glyphicon glyphicon-save"></span>
+      </button>
+
+
+    </div>
+  </div>
+
+
+</div>
