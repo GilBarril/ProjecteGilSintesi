@@ -14,7 +14,7 @@ router.post('/', function(req, res, next) {
         bcrypt.compare(req.body.password, user.password, function(err, valid) {
            
             if(err) return next(err);
-            if(!valid) return res.status(402).json({
+            if(!valid) return res.status(401).json({
                 "missatge": "contrasenya o usuari invàlid"
             });
             var token = jwt.encode({

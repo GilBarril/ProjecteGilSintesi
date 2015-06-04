@@ -33,7 +33,7 @@ angular.module('appLearn')
                 de l'$scope "currentUser", d'aquesta forma desapareixen
                 els menús sensibles a la autenticació
             */
-            console.log(UserSvc);
+          
             UserSvc.logOut();
             delete $scope.currentUser;
             $location.path('/');

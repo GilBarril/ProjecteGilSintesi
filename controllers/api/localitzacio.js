@@ -73,10 +73,7 @@ module.exports = function() {
                 if (err) {
                     return next(err);
                 }
-                res.status(200).json({
-                    "missatge": "Borra localitzacio"
-                });
-
+               
             });
 
 

@@ -30,12 +30,13 @@ angular.module('appLearn')
         $scope.borrarlocalitzacio = function(localitzacio){
             
                
-              LocalitzacioServei.srv.remove({
+             LocalitzacioServei.srv.remove({
                 id: localitzacio._id,
                 
             }, function() {
 
             });
+            
 
         }
         

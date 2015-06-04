@@ -33,7 +33,10 @@
       <input type="text" ng-model="lloc" placeholder="{{currentUser.lloc}}"></input>
       <button class="btn btn-info" ng-click="editauser(currentUser)">Guardar Configuracio <span class="glyphicon glyphicon-save"></span>
       </button>
-
+      <div ng-if="miss" class="alert alert-success">
+            <strong>{{miss}}</strong>
+      </div>
+      
 
     </div>
   </div>

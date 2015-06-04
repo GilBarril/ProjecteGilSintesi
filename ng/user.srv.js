@@ -15,7 +15,7 @@ angular.module('appLearn')
         
         srv.cookie = function(token) {
 
-            console.log("ara hauria d'enviar el broadcast")
+          
             xauth=token;
             $http.defaults.headers.common['x-auth'] = token;
             return $http.get('/api/users').success(function(e) {
@@ -34,12 +34,10 @@ angular.module('appLearn')
 
         srv.setUserView = function(user) {
 
-            console.log("la id");
-            console.log(user);
+          
 
             $http.get('/api/users/' + user + '').success(function(e) {
-                console.log("Usuariuser");
-                console.log(e);
+               
                 srv.UsuariView = e;
                 $rootScope.$broadcast('userdefined');
             });
@@ -101,7 +99,7 @@ angular.module('appLearn')
                 a l'api d'usuaris
             */
             
-            console.log("ENTREM UN USUARI");
+            
             
             return $http.post('/api/users', {
                 username: username,
@@ -116,7 +114,7 @@ angular.module('appLearn')
             */
 
             srv.auth = false;
-            delete $cookies["_MaQ"];
+          
             $http.defaults.headers.common['x-auth'] = "";
         };
 

@@ -11,13 +11,15 @@ angular.module('appLearn').controller('Novalocalitzaciocontroller', function($sc
         $scope.latitud = e.geometry.location.A;
         $scope.longitud = e.geometry.location.F;
         
-        console.log("He entrat a    SORT")
+        
         $scope.afegirlocalitzacio();
     }
 }
 
 
     $scope.afegirlocalitzacio = function() {
+ 
+        
         LocalitzacioServei.srv.save({
             usuari: $scope.currentUser._id,
             nom: $scope.nom,
@@ -26,16 +28,22 @@ angular.module('appLearn').controller('Novalocalitzaciocontroller', function($sc
             telefon: $scope.tel,
             latitud: $scope.latitud,
             longitud: $scope.longitud,
-        }, function(localitzacio) {
-            console.log(localitzacio);
+        }).$promise.then(function(localitzacio) {
             
             
-            $scope.currentUser.localitzacions.push(localitzacio);
+            
+            $scope.currentUser.localitzacions.splice(0,0,localitzacio);
             
             UserSvc.modificaarray($scope.currentUser,$scope.currentUser.localitzacions);
-            
+                
+            $scope.miss="Guardem Correctament";
 
             $location.path("/novalocalitzacio");
+        }, function(error) {
+            
+            $scope.error="Error al guardar";
+            
+            
         });
-    }
+    };
 });

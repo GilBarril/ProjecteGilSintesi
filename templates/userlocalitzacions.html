@@ -17,6 +17,23 @@
     <p ng-if="user.menjar"><span class="nomDada">El meu menjar preferit:</span> {{user.menjar}}</p>
     </div>
 </div>
+
+  <div ng-if="miss"  class="alert alert-success">
+             <strong>{{miss}}</strong>
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+            
+        </div>
+
+        <div ng-if="error"  class="alert alert-danger">
+            
+                 <strong>{{error}}</strong>
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+            
+
+        </div>
+
+
+
 <div class="col-xs-12 col-md-6">
             <ul class="list-group">
                

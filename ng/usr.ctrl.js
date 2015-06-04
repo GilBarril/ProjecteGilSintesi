@@ -5,10 +5,8 @@ angular.module('appLearn')
         
          $scope.compartirLocalitzacio = function(e,u) {
 
-             console.log("Entres a Compartir");
-             console.log(e);
-             console.log(u);
-      LocalitzacioServei.srv.save({
+        
+        LocalitzacioServei.srv.save({
             usuari: $scope.currentUser._id,
             nom: e.nom,
             logo: e.logo,
@@ -17,17 +15,21 @@ angular.module('appLearn')
             latitud: e.latitud,
             longitud: e.longitud,
             usuariOrigen:u.username,
-        }, function(localitzacio) {
-            console.log("Guardada Be");
-            console.log(localitzacio);
+        }).$promise.then(function(localitzacio) {
+        
+            $scope.miss="Compartida Correctament";
+              $scope.currentUser.localitzacions.splice(0,0,localitzacio);
             
-            $scope.currentUser.localitzacions.push(localitzacio);
+              UserSvc.modificaarray($scope.currentUser,$scope.currentUser.localitzacions);
+        
+        }, function(error) {
             
-            UserSvc.modificaarray($scope.currentUser,$scope.currentUser.localitzacions);
+            $scope.error="Error al compartir";
             
-
-            $location.path("/userlocalitzacions");
+            
         });
+        
+        
     }
         
         

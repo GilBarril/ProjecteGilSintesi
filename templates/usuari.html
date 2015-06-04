@@ -17,6 +17,24 @@
     
 
 <div>
+     <div class="row">
+     
+      <div ng-if="miss"  class="alert alert-success">
+             <strong>{{miss}}</strong>
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+            
+        </div>
+
+        <div ng-if="error"  class="alert alert-danger">
+            
+                 <strong>{{error}}</strong>
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+            
+
+</div>
+     
+     
+ </div>
     <div class="col-xs-12 col-md6">
             <ul class="list-group">
                

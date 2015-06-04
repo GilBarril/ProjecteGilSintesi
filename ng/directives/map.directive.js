@@ -12,7 +12,7 @@ angular.module('appLearn').directive('map', function() {
 
             var ObjecteGuardar;
             var ObjecteResponseGuadar;
-            var geolocalitzacioDenegada=false;
+            var geolocalitzacioDenegada = false;
             var geocoder;
             var map;
             var mapRoute;
@@ -28,9 +28,9 @@ angular.module('appLearn').directive('map', function() {
 
 
 
-            
 
-/*AQUI CREO L'AUTOCOMPLETAT DE GOOGLE PER L'INPUT*/
+
+            /*AQUI CREO L'AUTOCOMPLETAT DE GOOGLE PER L'INPUT*/
             autocomplete = new google.maps.places.Autocomplete(
                 (document.getElementById('address')), {
                     types: ['geocode']
@@ -52,7 +52,7 @@ angular.module('appLearn').directive('map', function() {
 
             }
 
-/* AQUI CREO EL SELECT AMB LES OPCIONS QUE JO VUI PER PODER POSAR-LO A UN SELECT 2*/
+            /* AQUI CREO EL SELECT AMB LES OPCIONS QUE JO VUI PER PODER POSAR-LO A UN SELECT 2*/
             var arrayTipus = ["Aeroport", "Aquari", "Galeria d'Art", "Fleca", "Banc", "Bar", "Bus", "Botiga", "Restaurants", "Hospital", "Casino", "Esport", "Universitat", "Hotel"];
             var arrayTypes = ["airport", "aquarium", "art_gallery", "bakery", "bank", "bar", "bus_station", "store", "restaurant", "hospital", "casino", "stadium", "university", "lodging"];
             var sel = document.getElementById('tipus');
@@ -65,18 +65,27 @@ angular.module('appLearn').directive('map', function() {
 
 
 
- /* AQUI CREO EL MAPA AMB UNES COORDENADES CONCRETES I UN ZOOM */
-            window.crearMapa = function() {
-                var latlng = new google.maps.LatLng(42.2667, 2.9667);
+            /* AQUI CREO EL MAPA AMB UNES COORDENADES CONCRETES I UN ZOOM */
+            window.crearMapa = function(pos) {
                 var mapOptions = {
                     zoom: 10,
-                    center: latlng
+                    center: pos
                 }
                 map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
                 var w = window.innerWidth;
                 document.getElementById("map-canvas").style.width = w;
             }
-            crearMapa();
+
+            function successInicial(pos) {
+
+                pos = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+                crearMapa(pos);
+            };
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(successInicial, error);
+            }
+
 
 
 
@@ -92,15 +101,15 @@ angular.module('appLearn').directive('map', function() {
             /*AQUI ET DIU SI HA TROBAT BÉ LA TEVA GEOLOCALITZACIO*/
 
             function success(pos) {
-                
+
                 posicioinicialRoute = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                geolocalitzacioDenegada=false;
+                geolocalitzacioDenegada = false;
             };
 
             function error(err) {
                 console.warn('ERROR(' + err.code + '): ' + err.message);
                 alert("No es pot accedir a la teva geolocalitzacio");
-                geolocalitzacioDenegada=true;
+                geolocalitzacioDenegada = true;
             };
 
 
@@ -126,14 +135,17 @@ angular.module('appLearn').directive('map', function() {
             /* AQUESTA  FUNCIO SERVEIX PER AGAFAR L'ADREÇA QUE LI POSES I ET TRANSFORMA LA DIRECCIO EN GEOLOCALITZACIO UN COP
             FET AIXÒ ESXECUTA LA FUNCIO QUE CREA ELS MARCADORS*/
             window.codeAddress = function() {
-                
+                 navigator.geolocation.getCurrentPosition(success, error);
+                document.getElementById("direction-panel").style.opacity = "0";
+                document.getElementById('botoPerGuardar').style.opacity = '0';
+
                 if (arraymarcadors.length > 0) {
                     TreureMarcadors();
                 }
-                 if (arrayDireccions.length > 0) {
-                        TreureDireccions();
-                    }
-                navigator.geolocation.getCurrentPosition(success, error);
+                if (arrayDireccions.length > 0) {
+                    TreureDireccions();
+                }
+
                 geocoder = new google.maps.Geocoder();
                 var adreca = document.getElementById("address").value;
                 geocoder.geocode({
@@ -220,31 +232,33 @@ angular.module('appLearn').directive('map', function() {
                 });
             }
             window.ComArribo = function(r) {
-                if(geolocalitzacioDenegada==false){
-                document.getElementById("direction-panel").style.opacity = "1";    
-                document.getElementById('botoPerGuardar').style.opacity = '1';
-                r = window.place;
-                var request = {
-                    placeId: r.place_id
-                };
-
-                service.getDetails(request, function(place, status) {
 
 
-                    var haight = new google.maps.LatLng(37.7699298, -122.4469157);
-                    directionsDisplay = new google.maps.DirectionsRenderer();
-                    var mapOptions = {
-                        zoom: 14,
-                        center: haight
-                    }
-                    if (arrayDireccions.length > 0) {
-                        TreureDireccions();
-                    }
-                    arrayDireccions.push(directionsDisplay);
-                    directionsDisplay.setMap(map);
-                    calcRoute(place);
+                if (geolocalitzacioDenegada == false) {
 
-                });
+                    r = window.place;
+                    var request = {
+                        placeId: r.place_id
+                    };
+
+                    service.getDetails(request, function(place, status) {
+                        console.log("El que arriba");
+                        console.log(place);
+
+                        var haight = new google.maps.LatLng(37.7699298, -122.4469157);
+                        directionsDisplay = new google.maps.DirectionsRenderer();
+                        var mapOptions = {
+                            zoom: 14,
+                            center: haight
+                        }
+                        if (arrayDireccions.length > 0) {
+                            TreureDireccions();
+                        }
+                        arrayDireccions.push(directionsDisplay);
+                        directionsDisplay.setMap(map);
+                        calcRoute(place);
+
+                    });
                 }
             }
 
@@ -261,123 +275,121 @@ angular.module('appLearn').directive('map', function() {
 
                     ObjecteResponseGuadar = response;
 
-                    /*AQUI EMPLENO LES DADES DEL LLOC EN EL PRIMER DIV*/
+                    /*MIRO SI LA RUTA ÉS POSSIBLE*/
+                    if (response.routes[0].legs[0] != null) {
+                        document.getElementById("direction-panel").style.opacity = "1";
+                        document.getElementById('botoPerGuardar').style.opacity = '1';
 
+                        /*AQUI EMPLENO LES DADES DEL LLOC EN EL PRIMER DIV*/
 
-                    var b = document.getElementById('panel-1');
-                    b.innerHTML = " ";
-                    var a = document.createElement("div");
-                    var a1 = document.createElement("p");
-                    var a2 = document.createElement("p");
-                    var a3 = document.createElement("p");
-                    var a4 = document.createElement("p");
-                    var a5 = document.createElement("p");
-                    // a.setAttribute('class', 'list-group-item');
-                    b.appendChild(a);
-                    a1.innerHTML = "<img class='imageIcon' src='" + f.icon + "'/><b> " + f.name + "</b>";
-                    a2.innerHTML = "<span class='nomDada'>Adreça: </span>" + response.routes[0].legs[0].end_address;
-                    a3.innerHTML = "<span class='nomDada'>Durada: </span>" + response.routes[0].legs[0].duration.text;
-                    if (f.opening_hours != null) {
-                        if (f.opening_hours.open_now == true) {
-                            a4.innerHTML = "<span class='nomDada'>Horari: </span><span style='color:green'>Local Obert</span>";
-                        }
-                        else {
-                            a4.innerHTML = "<span class='nomDada'>Horari: </span><span style='color:red'>Local Tancat</span>";
-                        }
-                    }
-                    if(f.formatted_phone_number || f.international_phone_number){
-                    a5.innerHTML = "<span class='nomDada'>Tel: </span>" + f.formatted_phone_number + ", " + f.international_phone_number;
-                    }else{a5.innerHTML ="No hi ha aquesta informació";};
-                    a.appendChild(a1);
-                    a.appendChild(a2);
-                    a.appendChild(a3);
-                    a.appendChild(a4);
-                    a.appendChild(a5);
-
-                    /*AQUI EMPLENO LES DADES DEL LLOC EN EL SEGON DIV*/
-
-                    var d = document.getElementById('panel-2');
-                    d.innerHTML = " ";
-                    var c = document.createElement("div");
-                    var c1 = document.createElement("p");
-                    var c2 = document.createElement("p");
-                    var c3 = document.createElement("p");
-
-                    var c5 = document.createElement("p");
-                    // a.setAttribute('class', 'list-group-item');
-                    d.appendChild(c);
-                    if(f.website){
-                    c1.innerHTML = "<span class='nomDada'>Web: </span><a href='" + f.website + "'>" + f.website + "</a>";
-                    }else{
-                         c1.innerHTML ="No hi ha aquesta informació";
-                    }
-                    c2.innerHTML = "<span class='nomDada'>Espai Google: </span><a href='" + f.url + "'>" + f.url + "</a>";
-                    c3.innerHTML = "<span class='nomDada'>Distancia: </span>" + response.routes[0].legs[0].distance.text;
-                    var rating = 'No hi ha Punts';
-                    if (f.rating) {
-                        var rating = '';
-                        for (var i = 0; i < 5; i++) {
-                            if (place.rating < (i + 0.5)) {
-                                rating += '&#10025;';
+                        var b = document.getElementById('panel-1');
+                        b.innerHTML = " ";
+                        var a = document.createElement("div");
+                        var a1 = document.createElement("p");
+                        var a2 = document.createElement("p");
+                        var a3 = document.createElement("p");
+                        var a4 = document.createElement("p");
+                        var a5 = document.createElement("p");
+                        // a.setAttribute('class', 'list-group-item');
+                        b.appendChild(a);
+                        a1.innerHTML = "<img class='imageIcon' src='" + f.icon + "'/><b> " + f.name + "</b>";
+                        a2.innerHTML = "<span class='nomDada'>Adreça: </span>" + response.routes[0].legs[0].end_address;
+                        a3.innerHTML = "<span class='nomDada'>Durada: </span>" + response.routes[0].legs[0].duration.text;
+                        if (f.opening_hours != null) {
+                            if (f.opening_hours.open_now == true) {
+                                a4.innerHTML = "<span class='nomDada'>Horari: </span><span style='color:green'>Local Obert</span>";
                             }
                             else {
-                                rating += '&#10029;';
+                                a4.innerHTML = "<span class='nomDada'>Horari: </span><span style='color:red'>Local Tancat</span>";
                             }
                         }
-                        c5.innerHTML = "<span class='nomDada'>Punts: </span>" + rating;
-                        c.appendChild(c5);
-                    }
+                        if (f.formatted_phone_number || f.international_phone_number) {
+                            a5.innerHTML = "<span class='nomDada'>Tel: </span>" + f.formatted_phone_number + ", " + f.international_phone_number;
+                        }
+                        else {
+                            a5.innerHTML = "No hi ha aquesta informació";
+                        };
+                        a.appendChild(a1);
+                        a.appendChild(a2);
+                        a.appendChild(a3);
+                        a.appendChild(a4);
+                        a.appendChild(a5);
 
-                    c.appendChild(c1);
-                    c.appendChild(c2);
-                    c.appendChild(c3);
+                        /*AQUI EMPLENO LES DADES DEL LLOC EN EL SEGON DIV*/
+
+                        var d = document.getElementById('panel-2');
+                        d.innerHTML = " ";
+                        var c = document.createElement("div");
+                        var c1 = document.createElement("p");
+                        var c2 = document.createElement("p");
+                        var c3 = document.createElement("p");
+
+                        var c5 = document.createElement("p");
+                        // a.setAttribute('class', 'list-group-item');
+                        d.appendChild(c);
+                        if (f.website) {
+                            c1.innerHTML = "<span class='nomDada'>Web: </span><a href='" + f.website + "'>" + f.website + "</a>";
+                        }
+                        else {
+                            c1.innerHTML = "No hi ha aquesta informació";
+                        }
+                        c2.innerHTML = "<span class='nomDada'>Espai Google: </span><a href='" + f.url + "'>" + f.url + "</a>";
+                        c3.innerHTML = "<span class='nomDada'>Distancia: </span>" + response.routes[0].legs[0].distance.text;
+                        var rating = 'No hi ha Punts';
+                        if (f.rating) {
+                            var rating = '';
+                            for (var i = 0; i < 5; i++) {
+                                if (place.rating < (i + 0.5)) {
+                                    rating += '&#10025;';
+                                }
+                                else {
+                                    rating += '&#10029;';
+                                }
+                            }
+                            c5.innerHTML = "<span class='nomDada'>Punts: </span>" + rating;
+                            c.appendChild(c5);
+                        }
+
+                        c.appendChild(c1);
+                        c.appendChild(c2);
+                        c.appendChild(c3);
 
 
 
 
-                    if (f.photos != null) {
-                        var foto = document.getElementById('foto');
-                        foto.innerHTML = "";
-                    
-                        for (var i = 0; i < f.photos.length; i++) {
-                            var divimage = document.createElement('div');
-                            divimage.setAttribute('class', 'col-xs-12 col-md-3 divdelesimatges');
-                            var url = document.createElement('img');
-                            divimage.appendChild(url);
+                        if (f.photos != null) {
+                            var foto = document.getElementById('foto');
+                            foto.innerHTML = "";
 
-                            url.setAttribute('class', 'img-thumbnail fotos');
-                            url.setAttribute('src', f.photos[i].getUrl({
-                                'maxWidth': 300,
-                                'maxHeight': 200
-                            }));
-                            foto.appendChild(divimage);
+                            for (var i = 0; i < f.photos.length; i++) {
+                                var divimage = document.createElement('div');
+                                divimage.setAttribute('class', 'col-xs-12 col-md-3 divdelesimatges');
+                                var url = document.createElement('img');
+                                divimage.appendChild(url);
+
+                                url.setAttribute('class', 'img-thumbnail fotos');
+                                url.setAttribute('src', f.photos[i].getUrl({
+                                    'maxWidth': 300,
+                                    'maxHeight': 200
+                                }));
+                                foto.appendChild(divimage);
+                            }
+                        }
+
+
+
+
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsDisplay.setDirections(response);
                         }
                     }
-                   
-
-
-
-                    if (status == google.maps.DirectionsStatus.OK) {
-                        directionsDisplay.setDirections(response);
-                    }
                 });
+
             }
 
 
             scope.sort = function() {
-                var success = document.getElementById('success');
-                var missatgeSuccesGuardat = document.createElement('div');
-                missatgeSuccesGuardat.setAttribute('id','missatgeSuccesGuardat');
-                missatgeSuccesGuardat.setAttribute('class','alert alert-success');
-                var link = document.createElement('a');
-                link.setAttribute('href','#');
-                link.setAttribute('class','close');
-                link.setAttribute('data-dismiss','alert');
-                link.innerHTML="&times;";
-                
-                missatgeSuccesGuardat.innerHTML="<strong>Success!</strong> La teva localitzacio ha estat guardada";
-                missatgeSuccesGuardat.appendChild(link);
-                success.appendChild(missatgeSuccesGuardat);
+
                 scope.$parent.test(ObjecteGuardar, ObjecteResponseGuadar);
 
             };
