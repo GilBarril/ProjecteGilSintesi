@@ -289,7 +289,7 @@ angular.module('appLearn').directive('map', function() {
                         var a2 = document.createElement("p");
                         var a3 = document.createElement("p");
                         var a4 = document.createElement("p");
-                        var a5 = document.createElement("p");
+                       
                         // a.setAttribute('class', 'list-group-item');
                         b.appendChild(a);
                         a1.innerHTML = "<img class='imageIcon' src='" + f.icon + "'/><b> " + f.name + "</b>";
@@ -304,23 +304,23 @@ angular.module('appLearn').directive('map', function() {
                             }
                         }
                         if (f.formatted_phone_number || f.international_phone_number) {
+                            var a5 = document.createElement("p");
                             a5.innerHTML = "<span class='nomDada'>Tel: </span>" + f.formatted_phone_number + ", " + f.international_phone_number;
+                            a.appendChild(a5);
                         }
-                        else {
-                            a5.innerHTML = "No hi ha aquesta informació";
-                        };
+                       
                         a.appendChild(a1);
                         a.appendChild(a2);
                         a.appendChild(a3);
                         a.appendChild(a4);
-                        a.appendChild(a5);
+                        
 
                         /*AQUI EMPLENO LES DADES DEL LLOC EN EL SEGON DIV*/
 
                         var d = document.getElementById('panel-2');
                         d.innerHTML = " ";
                         var c = document.createElement("div");
-                        var c1 = document.createElement("p");
+                       
                         var c2 = document.createElement("p");
                         var c3 = document.createElement("p");
 
@@ -328,11 +328,11 @@ angular.module('appLearn').directive('map', function() {
                         // a.setAttribute('class', 'list-group-item');
                         d.appendChild(c);
                         if (f.website) {
+                             var c1 = document.createElement("p");
                             c1.innerHTML = "<span class='nomDada'>Web: </span><a href='" + f.website + "'>" + f.website + "</a>";
+                            c.appendChild(c1);
                         }
-                        else {
-                            c1.innerHTML = "No hi ha aquesta informació";
-                        }
+                       
                         c2.innerHTML = "<span class='nomDada'>Espai Google: </span><a href='" + f.url + "'>" + f.url + "</a>";
                         c3.innerHTML = "<span class='nomDada'>Distancia: </span>" + response.routes[0].legs[0].distance.text;
                         var rating = 'No hi ha Punts';
@@ -350,7 +350,7 @@ angular.module('appLearn').directive('map', function() {
                             c.appendChild(c5);
                         }
 
-                        c.appendChild(c1);
+                       
                         c.appendChild(c2);
                         c.appendChild(c3);
 

@@ -43,7 +43,7 @@
                     
                     <p class="titollloc"><img class="imageIcon" src="{{localitzacio.logo}}" /> {{localitzacio.nom}}</p>
                     <p><span class="nomDada">Adreça: </span> <span class="adrecaperdireccions">{{localitzacio.adreca}}</span></p>
-                    <p><span class="nomDada">Tel: </span> {{localitzacio.telefon}}</p>
+                    <p ng-if="licalitzacio.telefon"><span class="nomDada">Tel: </span> {{localitzacio.telefon}}</p>
                     <p><span class="nomDada">Data: </span> {{localitzacio.data}}</p>
                     <p ng-if="localitzacio.usuariOrigen"><span class="nomDada">Compartit des de: </span> {{localitzacio.usuariOrigen}}</p>
                      <button ng-if="currentUser" ng-click="compartirLocalitzacio(localitzacio,usuari)" class="btn btn-default direccions" >Compartir al meu Mur <span class="glyphicon glyphicon-share"></span>
